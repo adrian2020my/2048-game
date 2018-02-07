@@ -95,7 +95,7 @@ GameManager.prototype.actuate = function () {
     bestScore:  this.storageManager.getBestScore(),
     terminated: this.isGameTerminated()
   });
-
+  window.webkit.messageHandlers.score.postMessage(this.storageManager.getBestScore());
 };
 
 // Represent the current game as an object
@@ -192,7 +192,7 @@ GameManager.prototype.move = function (direction) {
     }
 
     this.actuate();
-    window.webkit.messageHandlers.condition.postMessage(this.storageManager.getBestScore());
+    
     if (this.won) {
       window.webkit.messageHandlers.condition.postMessage("Won");
     }
