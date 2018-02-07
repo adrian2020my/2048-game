@@ -24,17 +24,11 @@ GameManager.prototype.restart = function () {
 GameManager.prototype.keepPlaying = function () {
   this.keepPlaying = true;
   this.actuator.continueGame(); // Clear the game won/lost message
-  window.webkit.messageHandlers.condition.postMessage("Won");
 };
 
 // Return true if the game is lost, or has won and the user hasn't kept playing
 GameManager.prototype.isGameTerminated = function () {
-  if (this.over) {
-    window.webkit.messageHandlers.score.postMessage(this.storageManager.getBestScore());
-    return;
-  } else if (this.won && !this.keepPlaying) {
-    return;
-  }
+  return this.over || (this.won && !this.keepPlaying);
 };
 
 // Set up the game
@@ -138,7 +132,7 @@ GameManager.prototype.move = function (direction) {
   var self = this;
 
   if (this.isGameTerminated()) {
-    // window.webkit.messageHandlers.score.postMessage(this.storageManager.getBestScore())
+    window.webkit.messageHandlers.score.postMessage(this.storageManager.getBestScore());
     return;
   } // Don't do anything if the game's over
 
@@ -176,7 +170,7 @@ GameManager.prototype.move = function (direction) {
           self.score += merged.value;
 
           // The mighty 2048 tile
-          if (merged.value === 2048) self.won = true;
+          if (merged.value === 4) self.won = true;
         } else {
           self.moveTile(tile, positions.farthest);
         }
