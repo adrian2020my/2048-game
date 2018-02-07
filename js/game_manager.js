@@ -24,11 +24,17 @@ GameManager.prototype.restart = function () {
 GameManager.prototype.keepPlaying = function () {
   this.keepPlaying = true;
   this.actuator.continueGame(); // Clear the game won/lost message
+  window.webkit.messageHandlers.condition.postMessage("Won");
 };
 
 // Return true if the game is lost, or has won and the user hasn't kept playing
 GameManager.prototype.isGameTerminated = function () {
-  return this.over || (this.won && !this.keepPlaying);
+  if (this.over) {
+    window.webkit.messageHandlers.score.postMessage(this.storageManager.getBestScore());
+    return;
+  } else if (this.won && !this.keepPlaying) {
+    return;
+  }
 };
 
 // Set up the game
@@ -132,7 +138,7 @@ GameManager.prototype.move = function (direction) {
   var self = this;
 
   if (this.isGameTerminated()) {
-    window.webkit.messageHandlers.score.postMessage(this.storageManager.getBestScore())
+    // window.webkit.messageHandlers.score.postMessage(this.storageManager.getBestScore())
     return;
   } // Don't do anything if the game's over
 
