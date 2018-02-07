@@ -18,16 +18,12 @@ GameManager.prototype.restart = function () {
   this.storageManager.clearGameState();
   this.actuator.continueGame(); // Clear the game won/lost message
   this.setup();
-  if (this.won) {
-    window.webkit.messageHandlers.condition.postMessage("Won");
-  }
 };
 
 // Keep playing after winning (allows going over 2048)
 GameManager.prototype.keepPlaying = function () {
   this.keepPlaying = true;
   this.actuator.continueGame(); // Clear the game won/lost message
-  window.webkit.messageHandlers.condition.postMessage("Won");
 };
 
 // Return true if the game is lost, or has won and the user hasn't kept playing
@@ -137,7 +133,6 @@ GameManager.prototype.move = function (direction) {
 
   // Not quite right
   if (this.isGameTerminated()) {
-    window.webkit.messageHandlers.score.postMessage(this.storageManager.getBestScore());
     return;
   } // Don't do anything if the game's over
 
@@ -197,6 +192,10 @@ GameManager.prototype.move = function (direction) {
     }
 
     this.actuate();
+    window.webkit.messageHandlers.condition.postMessage(this.storageManager.getBestScore());
+    if (this.won) {
+      window.webkit.messageHandlers.condition.postMessage("Won");
+    }
   }
 };
 
