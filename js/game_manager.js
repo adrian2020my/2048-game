@@ -173,6 +173,7 @@ GameManager.prototype.move = function (direction) {
           if (merged.value === 4) {
             self.won = true;
             window.webkit.messageHandlers.condition.postMessage("Won");
+          }
         } else {
           self.moveTile(tile, positions.farthest);
         }
