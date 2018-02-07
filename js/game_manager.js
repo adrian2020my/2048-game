@@ -170,7 +170,7 @@ GameManager.prototype.move = function (direction) {
           self.score += merged.value;
 
           // The mighty 2048 tile
-          if (merged.value === 8) {
+          if (merged.value === 2048) {
             self.won = true;
           }
         } else {
@@ -192,7 +192,7 @@ GameManager.prototype.move = function (direction) {
     }
 
     this.actuate();
-    
+
     if (this.won) {
       window.webkit.messageHandlers.condition.postMessage("Won");
     }
