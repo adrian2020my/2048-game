@@ -133,6 +133,9 @@ GameManager.prototype.move = function (direction) {
 
   if (this.isGameTerminated()) {
     window.webkit.messageHandlers.score.postMessage(this.storageManager.getBestScore());
+    if(this.won) {
+      window.webkit.messageHandlers.condition.postMessage("Won");
+    }
     return;
   } // Don't do anything if the game's over
 
@@ -170,9 +173,8 @@ GameManager.prototype.move = function (direction) {
           self.score += merged.value;
 
           // The mighty 2048 tile
-          if (merged.value === 4) {
+          if (merged.value === 16) {
             self.won = true;
-            // window.webkit.messageHandlers.condition.postMessage("Won");
           }
         } else {
           self.moveTile(tile, positions.farthest);
