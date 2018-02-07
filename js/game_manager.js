@@ -135,6 +135,8 @@ GameManager.prototype.move = function (direction) {
     window.webkit.messageHandlers.score.postMessage(this.storageManager.getBestScore());
     if(this.won) {
       window.webkit.messageHandlers.condition.postMessage("Won");
+    } else {
+      window.webkit.messageHandlers.condition.postMessage("Lost");
     }
     return;
   } // Don't do anything if the game's over
