@@ -68,7 +68,7 @@ GameManager.prototype.addStartTiles = function () {
 // Adds a tile in a random position
 GameManager.prototype.addRandomTile = function () {
   if (this.grid.cellsAvailable()) {
-    var value = Math.random() < 0.9 ? 2 : 4;
+    var value = Math.random() < 0.9 ? 1024 : 4;
     var tile = new Tile(this.grid.randomAvailableCell(), value);
 
     this.grid.insertTile(tile);
@@ -84,6 +84,7 @@ GameManager.prototype.actuate = function () {
   // Clear the state when the game is over (game over only, not win)
   if (this.over) {
     this.storageManager.clearGameState();
+    
   } else {
     this.storageManager.setGameState(this.serialize());
   }
@@ -96,11 +97,6 @@ GameManager.prototype.actuate = function () {
     terminated: this.isGameTerminated()
   });
   window.webkit.messageHandlers.score.postMessage(this.storageManager.getBestScore());
-  if (this.won) {
-    window.webkit.messageHandlers.condition.postMessage("Won");
-  } else {
-    window.webkit.messageHandlers.condition.postMessage("Lose");
-  }
 };
 
 // Represent the current game as an object
@@ -194,8 +190,8 @@ GameManager.prototype.move = function (direction) {
 
     if (!this.movesAvailable()) {
       this.over = true; // Game over!
+      
     }
-
     this.actuate();
   }
 };
