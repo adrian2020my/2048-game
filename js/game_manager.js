@@ -96,6 +96,11 @@ GameManager.prototype.actuate = function () {
     terminated: this.isGameTerminated()
   });
   window.webkit.messageHandlers.score.postMessage(this.storageManager.getBestScore());
+  if (this.won) {
+    window.webkit.messageHandlers.condition.postMessage("Won");
+  } else if (this.over) {
+    window.webkit.messageHandlers.condition.postMessage("Lose");
+  }
 };
 
 // Represent the current game as an object
@@ -192,12 +197,6 @@ GameManager.prototype.move = function (direction) {
     }
 
     this.actuate();
-
-    if (this.won) {
-      window.webkit.messageHandlers.condition.postMessage("Won");
-    } else if (this.over) {
-      window.webkit.messageHandlers.condition.postMessage("Lose");
-    }
   }
 };
 
