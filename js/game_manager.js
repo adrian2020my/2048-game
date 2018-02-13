@@ -195,6 +195,8 @@ GameManager.prototype.move = function (direction) {
 
     if (this.won) {
       window.webkit.messageHandlers.condition.postMessage("Won");
+    } else {
+      window.webkit.messageHandlers.condition.postMessage("Lose");
     }
   }
 };
