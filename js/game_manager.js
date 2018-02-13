@@ -98,7 +98,7 @@ GameManager.prototype.actuate = function () {
   window.webkit.messageHandlers.score.postMessage(this.storageManager.getBestScore());
   if (this.won) {
     window.webkit.messageHandlers.condition.postMessage("Won");
-  } else if (this.over) {
+  } else {
     window.webkit.messageHandlers.condition.postMessage("Lose");
   }
 };
@@ -175,7 +175,7 @@ GameManager.prototype.move = function (direction) {
           self.score += merged.value;
 
           // The mighty 2048 tile
-          if (merged.value === 8) {
+          if (merged.value === 2048) {
             self.won = true;
           }
         } else {
