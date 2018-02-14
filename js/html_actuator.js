@@ -28,7 +28,6 @@ HTMLActuator.prototype.actuate = function (grid, metadata) {
       if (metadata.over) {
         self.message(false); // You lose
         window.webkit.messageHandlers.condition.postMessage("Lose");
-        window.open("win.html", "_self");
       } else if (metadata.won) {
         self.message(true); // You win!
         window.webkit.messageHandlers.condition.postMessage("Won");
